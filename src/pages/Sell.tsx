@@ -103,9 +103,14 @@ function Sell() {
 	}, [watch("id")]);
 
 	return (
-		<Center>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<Stack w="500px" direction={"column"} spacing={2}>
+		<Center w="full" paddingInlineStart={4} paddingInlineEnd={4}>
+			<form style={{ width: "100%" }} onSubmit={handleSubmit(onSubmit)}>
+				<Stack
+					w={["full", "500px"]}
+					maxW="full"
+					direction={"column"}
+					spacing={2}
+				>
 					<Heading>Sell Item</Heading>
 					{watch("id") && sales.length !== 0 && (
 						<ResponsiveContainer aspect={2.5} width="100%">
