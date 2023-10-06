@@ -185,7 +185,7 @@ function MarketItemPage() {
 						spacing={5}
 						mt={5}
 					>
-						<Stack direction={"column"} w={["full", "70%"} spacing={2}>
+						<Stack direction={"column"} w={["full", "70%"]} spacing={2}>
 							<Stack
 								alignItems={"center"}
 								direction={"row"}
