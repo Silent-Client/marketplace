@@ -31,6 +31,13 @@ const router = createBrowserRouter([
 				},
 			},
 			{
+				path: "/sell",
+				async lazy() {
+					const page = await import("./pages/Sell.tsx");
+					return { Component: page.default, loader: Loader };
+				},
+			},
+			{
 				path: "*",
 				async lazy() {
 					const page = await import("./pages/NotFound.tsx");

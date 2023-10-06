@@ -93,7 +93,7 @@ function BalanceModal({
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
-			<ModalContent bgColor="#131313">
+			<ModalContent pt={0} bgColor="#131313">
 				<ModalHeader>Balance replenishment</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody mb={2}>

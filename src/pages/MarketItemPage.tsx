@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BuySellModal from "../components/BuySellModal";
 import { AppContext } from "../providers/AppContext";
 import { ItemPageType } from "../types/types";
@@ -27,6 +27,7 @@ function MarketItemPage() {
 	const modal = useDisclosure();
 	const context = useContext(AppContext);
 	const toast = useToast();
+	const navigate = useNavigate();
 
 	const getData = async (disableLoading?: boolean) => {
 		if (!disableLoading) {
@@ -40,6 +41,7 @@ function MarketItemPage() {
 			setItem(data.info);
 		} catch (error) {
 			errorHandler(error, toast);
+			navigate("/");
 		} finally {
 			setLoading.off();
 		}
@@ -50,8 +52,10 @@ function MarketItemPage() {
 		context.updateUser();
 
 		const interval = setInterval(() => {
-			getData(true);
-			context.updateUser();
+			if (!loading) {
+				getData(true);
+				context.updateUser();
+			}
 		}, 10000);
 		return () => clearInterval(interval);
 	}, []);
@@ -84,11 +88,13 @@ function MarketItemPage() {
 							direction={["column", "row"]}
 							spacing={3}
 						>
-							<Image
-								src={`https://api.silentclient.net${item?.item.preview}`}
-								w={["full", "200px"]}
-								h={["auto", "200px"]}
-							/>
+							<Center bgColor={"#131313"} borderRadius={"xl"} p={2}>
+								<Image
+									src={`https://api.silentclient.net${item?.item.preview}`}
+									w={["full", "200px"]}
+									h={["auto", "200px"]}
+								/>
+							</Center>
 							<Stack direction={"column"} spacing={1}>
 								<Heading size={"md"}>{item?.item.name}</Heading>
 								<Text opacity={"0.8"} fontSize={"md"}>

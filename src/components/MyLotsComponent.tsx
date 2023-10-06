@@ -1,4 +1,6 @@
 import {
+	Box,
+	Button,
 	Center,
 	Heading,
 	Link,
@@ -10,6 +12,7 @@ import {
 import axios from "axios";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../providers/AppContext";
 import { ExtendedMarketplaceItem } from "../types/types";
 import { errorHandler } from "../utils";
@@ -20,6 +23,7 @@ function MyLotsComponent() {
 	const [items, setItems] = useState<ExtendedMarketplaceItem[] | null>([]);
 	const [isLoading, setLoading] = useBoolean(true);
 	const toast = useToast();
+	const navigate = useNavigate();
 
 	const getData = async () => {
 		setLoading.on();
@@ -52,6 +56,24 @@ function MyLotsComponent() {
 		</Center>
 	) : items?.length !== 0 ? (
 		<Stack direction={"column"} spacing={2}>
+			<Button
+				w="full"
+				h="35px"
+				fontSize={"xl"}
+				borderRadius={"8px"}
+				paddingInlineStart={6}
+				paddingInlineEnd={6}
+				_hover={{
+					bgColor: "#202020",
+				}}
+				_active={{
+					bgColor: "#252525",
+				}}
+				bgColor={"#131313"}
+				onClick={() => navigate("/sell")}
+			>
+				Sell Item
+			</Button>
 			{items?.map(item => {
 				return (
 					<MarketplaceItemComponent
@@ -97,7 +119,28 @@ function MyLotsComponent() {
 		</Stack>
 	) : (
 		<Center minH={"48px"}>
-			<Heading size={"sm"}>Sell listings not found</Heading>
+			<Stack alignItems={"center"} direction={"column"} spacing={1}>
+				<Heading size={"sm"}>Sell listings not found</Heading>
+				<Box>
+					<Button
+						borderRadius={"8px"}
+						paddingInlineStart={6}
+						paddingInlineEnd={6}
+						_hover={{
+							bgColor: "#202020",
+						}}
+						_active={{
+							bgColor: "#252525",
+						}}
+						bgColor={"#131313"}
+						h="28px"
+						fontSize={"md"}
+						onClick={() => navigate("/sell")}
+					>
+						Sell Item
+					</Button>
+				</Box>
+			</Stack>
 		</Center>
 	);
 }

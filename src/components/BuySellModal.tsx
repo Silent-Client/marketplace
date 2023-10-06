@@ -1,7 +1,9 @@
 import {
 	Button,
+	Center,
 	FormControl,
 	FormLabel,
+	Heading,
 	Input,
 	Modal,
 	ModalBody,
@@ -69,44 +71,50 @@ function BuySellModal({
 
 	return (
 		<>
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal size={"2xl"} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent bgColor="#131313">
 					<ModalHeader>
 						{capitalize(type)} {item?.item.name}
 					</ModalHeader>
 					<ModalCloseButton />
-					<ModalBody mb={2}>
-						<ResponsiveContainer aspect={1.5} width="100%" height="100%">
-							<LineChart
-								width={500}
-								height={300}
-								margin={{
-									left: -25,
-								}}
-								data={sales.map(sale => {
-									return {
-										name: sale.date,
-										Price: (sale.median_price / 100).toFixed(2),
-									};
-								})}
-							>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="name" />
-								<YAxis />
-								<Tooltip
-									formatter={value => value + "$"}
-									contentStyle={{
-										background: "#151515",
-										border: "none",
-										borderRadius: "15px",
-									}}
-								/>
-								<Legend />
-								<Line type="monotone" dataKey="Price" stroke="white" />
-							</LineChart>
-						</ResponsiveContainer>
+					<ModalBody pt={0} mb={2}>
 						<Stack direction={"column"} spacing={2}>
+							{(sales.length !== 0 && (
+								<ResponsiveContainer aspect={2.5} width="100%">
+									<LineChart
+										width={500}
+										height={300}
+										margin={{
+											left: -25,
+										}}
+										data={sales.map(sale => {
+											return {
+												name: sale.date,
+												Price: (sale.median_price / 100).toFixed(2),
+											};
+										})}
+									>
+										<CartesianGrid strokeDasharray="3 3" />
+										<XAxis dataKey="name" />
+										<YAxis />
+										<Tooltip
+											formatter={value => value + "$"}
+											contentStyle={{
+												background: "#151515",
+												border: "none",
+												borderRadius: "15px",
+											}}
+										/>
+										<Legend />
+										<Line type="monotone" dataKey="Price" stroke="white" />
+									</LineChart>
+								</ResponsiveContainer>
+							)) || (
+								<Center>
+									<Heading size={"sm"}>Sales not found</Heading>
+								</Center>
+							)}
 							<FormControl>
 								<FormLabel>
 									{type === "order" ? "Max price" : "Price"}

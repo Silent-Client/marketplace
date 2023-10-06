@@ -6,16 +6,17 @@ import AuthProvider from "./providers/AuthProvider";
 function Layout() {
 	return (
 		<>
-			<AuthProvider />
-			<Header />
+			<AuthProvider>
+				<Header />
 
-			<Box
-				paddingInlineStart={["5px", "20px"]}
-				paddingInlineEnd={["5px", "20px"]}
-				pt="85px"
-			>
-				<Outlet />
-			</Box>
+				<Box
+					paddingInlineStart={["5px", "20px"]}
+					paddingInlineEnd={["5px", "20px"]}
+					pt="85px"
+				>
+					<Outlet />
+				</Box>
+			</AuthProvider>
 		</>
 	);
 }

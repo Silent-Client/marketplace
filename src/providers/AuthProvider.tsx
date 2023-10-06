@@ -1,11 +1,14 @@
+import { Center, Spinner, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { errorHandler } from "../utils";
 import { AppContext } from "./AppContext";
 
-function AuthProvider() {
+function AuthProvider({ children }: any) {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const context = useContext(AppContext);
+	const toast = useToast();
 
 	useEffect(() => {
 		const authorize = async () => {
@@ -25,6 +28,7 @@ function AuthProvider() {
 							isLoading: false,
 						});
 					} catch (error) {
+						errorHandler(error, toast);
 						context.setProps({
 							account: null,
 							accessToken: null,
@@ -46,7 +50,13 @@ function AuthProvider() {
 		authorize();
 	}, []);
 
-	return <div></div>;
+	return context.props.isLoading ? (
+		<Center minH="100vh">
+			<Spinner size="xl" color="white" />
+		</Center>
+	) : (
+		children
+	);
 }
 
 export default AuthProvider;
