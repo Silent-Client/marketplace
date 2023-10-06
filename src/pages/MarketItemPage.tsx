@@ -13,8 +13,10 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate, useParams } from "react-router-dom";
 import BuySellModal from "../components/BuySellModal";
+import "../css/MarketItemPage.css";
 import { AppContext } from "../providers/AppContext";
 import { ItemPageType } from "../types/types";
 import { errorHandler } from "../utils";
@@ -221,11 +223,12 @@ function MarketItemPage() {
 									alignItems={["start", "center"]}
 								>
 									<Stack alignItems={"center"} direction={"row"} spacing={1}>
-										<Image
+										<LazyLoadImage
 											src={`https://mc-heads.net/avatar/${lot.user.username}.png`}
-											w="50px"
-											h="50px"
-										></Image>
+											width="50px"
+											height="50px"
+											className="market-lot-avatar"
+										></LazyLoadImage>
 										<Stack direction={"column"} spacing={0}>
 											<Heading size={"sm"}>
 												{(lot.price / 100).toFixed(2)}$

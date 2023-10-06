@@ -1,5 +1,6 @@
-import { Box, Heading, Image, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link as RLink } from "react-router-dom";
 
 export interface MarketplaceItemComponentProps {
@@ -49,7 +50,7 @@ function MarketplaceItemComponent(props: MarketplaceItemComponentProps) {
 				justifyContent={"space-between"}
 			>
 				<Stack direction={"row"} alignItems={"center"} spacing={2}>
-					<Image src={props.preview} w={"80px"} h="80px" />
+					<LazyLoadImage src={props.preview} width={"80px"} height="80px" />
 					<Stack direction={"column"} spacing={0}>
 						<Heading size={"sm"}>{props.name}</Heading>
 						<Text opacity={"0.8"} fontSize={"md"}>
