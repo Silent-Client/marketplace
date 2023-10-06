@@ -104,100 +104,100 @@ function Sell() {
 
 	return (
 		<Center w="full" paddingInlineStart={4} paddingInlineEnd={4}>
-			<form style={{ width: "100%" }} onSubmit={handleSubmit(onSubmit)}>
-				<Stack
-					w={["full", "500px"]}
-					maxW="full"
-					direction={"column"}
-					spacing={2}
-				>
-					<Heading>Sell Item</Heading>
-					{watch("id") && sales.length !== 0 && (
-						<ResponsiveContainer aspect={2.5} width="100%">
-							<LineChart
-								width={500}
-								height={300}
-								margin={{
-									left: -25,
+			<Stack
+				w={["full", "500px"]}
+				maxW="full"
+				direction={"column"}
+				spacing={2}
+				as="form"
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				<Heading>Sell Item</Heading>
+				{watch("id") && sales.length !== 0 && (
+					<ResponsiveContainer aspect={2.5} width="100%">
+						<LineChart
+							width={500}
+							height={300}
+							margin={{
+								left: -25,
+							}}
+							data={sales.map(sale => {
+								return {
+									name: sale.date,
+									Price: (sale.median_price / 100).toFixed(2),
+								};
+							})}
+						>
+							<CartesianGrid strokeDasharray="3 3" />
+							<XAxis dataKey="name" />
+							<YAxis />
+							<Tooltip
+								formatter={value => value + "$"}
+								contentStyle={{
+									background: "#151515",
+									border: "none",
+									borderRadius: "15px",
 								}}
-								data={sales.map(sale => {
-									return {
-										name: sale.date,
-										Price: (sale.median_price / 100).toFixed(2),
-									};
-								})}
-							>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="name" />
-								<YAxis />
-								<Tooltip
-									formatter={value => value + "$"}
-									contentStyle={{
-										background: "#151515",
-										border: "none",
-										borderRadius: "15px",
-									}}
-								/>
-								<Legend />
-								<Line type="monotone" dataKey="Price" stroke="white" />
-							</LineChart>
-						</ResponsiveContainer>
+							/>
+							<Legend />
+							<Line type="monotone" dataKey="Price" stroke="white" />
+						</LineChart>
+					</ResponsiveContainer>
+				)}
+				<FormControl isInvalid={errors.type ? true : false}>
+					<FormLabel>Type</FormLabel>
+					<Select
+						isDisabled={isSubmitting}
+						placeholder="Select type"
+						{...register("type", { required: true })}
+					>
+						<option value="capes">Capes</option>
+						<option value="wings">Wings</option>
+						<option value="bandanas">Bandanas</option>
+						<option value="hats">Hats</option>
+						<option value="shields">Shields</option>
+					</Select>
+
+					{errors.type && (
+						<FormErrorMessage>This field is required</FormErrorMessage>
 					)}
-					<FormControl isInvalid={errors.type ? true : false}>
-						<FormLabel>Type</FormLabel>
+				</FormControl>
+				{watch("type") && (
+					<FormControl isInvalid={errors.id ? true : false}>
+						<FormLabel>Item</FormLabel>
 						<Select
 							isDisabled={isSubmitting}
-							placeholder="Select type"
-							{...register("type", { required: true })}
+							placeholder="Select item"
+							{...register("id", { required: true })}
 						>
-							<option value="capes">Capes</option>
-							<option value="wings">Wings</option>
-							<option value="bandanas">Bandanas</option>
-							<option value="hats">Hats</option>
-							<option value="shields">Shields</option>
+							{context.props.account?.cosmetics[watch("type") as "capes"].map(
+								item => (
+									<option value={item.id.toString()}>{item.name}</option>
+								)
+							)}
 						</Select>
 
-						{errors.type && (
+						{errors.id && (
 							<FormErrorMessage>This field is required</FormErrorMessage>
 						)}
 					</FormControl>
-					{watch("type") && (
-						<FormControl isInvalid={errors.id ? true : false}>
-							<FormLabel>Item</FormLabel>
-							<Select
-								isDisabled={isSubmitting}
-								placeholder="Select item"
-								{...register("id", { required: true })}
-							>
-								{context.props.account?.cosmetics[watch("type") as "capes"].map(
-									item => (
-										<option value={item.id.toString()}>{item.name}</option>
-									)
-								)}
-							</Select>
+				)}
+				<FormControl isInvalid={errors.price ? true : false}>
+					<FormLabel>Price</FormLabel>
+					<Input
+						isDisabled={isSubmitting}
+						placeholder="Price"
+						{...register("price", { required: true })}
+					></Input>
 
-							{errors.id && (
-								<FormErrorMessage>This field is required</FormErrorMessage>
-							)}
-						</FormControl>
+					{errors.price && (
+						<FormErrorMessage>This field is required</FormErrorMessage>
 					)}
-					<FormControl isInvalid={errors.price ? true : false}>
-						<FormLabel>Price</FormLabel>
-						<Input
-							isDisabled={isSubmitting}
-							placeholder="Price"
-							{...register("price", { required: true })}
-						></Input>
-
-						{errors.price && (
-							<FormErrorMessage>This field is required</FormErrorMessage>
-						)}
-					</FormControl>
-					<Button isDisabled={isSubmitting} type="submit" w="full">
-						Sell
-					</Button>
-				</Stack>
-			</form>
+				</FormControl>
+				<Button isDisabled={isSubmitting} type="submit" w="full">
+					Sell
+				</Button>
+			</Stack>
 		</Center>
 	);
 }

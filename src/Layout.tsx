@@ -10,8 +10,8 @@ function Layout() {
 				<Header />
 
 				<Box
-					paddingInlineStart={["5px", "20px"]}
-					paddingInlineEnd={["5px", "20px"]}
+					paddingInlineStart={[4, "20px"]}
+					paddingInlineEnd={[4, "20px"]}
 					pt="85px"
 				>
 					<Outlet />
