@@ -1,7 +1,7 @@
 import {
 	Button,
 	Container,
-	Stack,
+	SimpleGrid,
 	TabList,
 	TabPanel,
 	TabPanels,
@@ -19,7 +19,7 @@ import { AppContext } from "../providers/AppContext";
 function Main() {
 	const context = useContext(AppContext);
 
-	const CustomTab = React.forwardRef((props: { children: any }, ref) => {
+	const CustomTab = React.forwardRef((props: any, ref) => {
 		const tabProps = useTab({ ...props, ref: ref as any });
 		const isSelected = !!tabProps["aria-selected"];
 
@@ -55,15 +55,15 @@ function Main() {
 				{context.props.account && (
 					<Tabs w="full" variant="soft-rounded" colorScheme="whiteAlpha" isLazy>
 						<TabList w="full">
-							<Stack
+							<SimpleGrid
 								w="full"
 								alignItems={"center"}
-								direction={"row"}
+								columns={2}
 								spacing={2}
 							>
 								<CustomTab>My sell listings</CustomTab>
 								<CustomTab>My buy orders</CustomTab>
-							</Stack>
+							</SimpleGrid>
 						</TabList>
 
 						<TabPanels mt={2}>
@@ -85,11 +85,11 @@ function Main() {
 					isLazy
 				>
 					<TabList w="full">
-						<Stack w="full" direction={"row"} spacing={2}>
+						<SimpleGrid w="full" columns={[2, 3]} spacing={2}>
 							<CustomTab>Popular Items</CustomTab>
 							<CustomTab>Recently Listed</CustomTab>
-							<CustomTab>Recently Sold</CustomTab>
-						</Stack>
+							<CustomTab gridColumn={["1/3", "3/3"]}>Recently Sold</CustomTab>
+						</SimpleGrid>
 					</TabList>
 
 					<TabPanels mt={2}>
