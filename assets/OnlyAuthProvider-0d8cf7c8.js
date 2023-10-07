@@ -1,1 +1,0 @@
-import{r as n,A as e,j as t,O as r}from"./index-080067de.js";function a(){const o=n.useContext(e);return o.props.account||(window.location.href=`https://auth.silentclient.net/login?redirect_url=${window.location.href}`),o.props.account?t.jsx(r,{}):t.jsx(t.Fragment,{})}export{a as default};
