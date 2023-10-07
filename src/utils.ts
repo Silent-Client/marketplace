@@ -24,3 +24,7 @@ export function capitalize(text: string) {
 		return m.toUpperCase();
 	});
 }
+
+export function sleep(ms: number) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}

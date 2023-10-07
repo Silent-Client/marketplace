@@ -47,6 +47,25 @@ const router = createBrowserRouter([
 				],
 			},
 			{
+				path: "/cases",
+				children: [
+					{
+						index: true,
+						async lazy() {
+							const page = await import("./pages/Cases.tsx");
+							return { Component: page.default, loader: Loader };
+						},
+					},
+					{
+						path: ":id",
+						async lazy() {
+							const page = await import("./pages/OpenCase/index.tsx");
+							return { Component: page.default, loader: Loader };
+						},
+					},
+				],
+			},
+			{
 				path: "/deals",
 				async lazy() {
 					const page = await import("./pages/MyDeals.tsx");

@@ -139,3 +139,5 @@ export interface DealType {
 	updated_at: string;
 	readed: boolean;
 }
+
+export type CaseType = { items: StoreItemType[] } & StoreItemType;

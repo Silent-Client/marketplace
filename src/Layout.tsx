@@ -1,9 +1,14 @@
 import { Box } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import AuthProvider from "./providers/AuthProvider";
 
 function Layout() {
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location.pathname]);
+
 	return (
 		<>
 			<AuthProvider>
