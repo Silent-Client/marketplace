@@ -22,7 +22,7 @@ function Roulette({
 			const itemWidth = 150 + 10;
 			const resultIndex = _.random(40, 60);
 			const innerOffset = _.random(0, 0.99);
-			setProperties({
+			const data = {
 				result: result.name,
 				items: [
 					...new Array(resultIndex)
@@ -34,15 +34,16 @@ function Roulette({
 						.map(() => item.items[_.random(0, item.items.length - 1)]),
 				],
 				offset: itemWidth * (resultIndex + innerOffset) - 250,
-			});
+			};
+			setProperties(data);
+			await sleep(500);
+			setMargin(-data?.offset);
 			await sleep(10000);
 			handleDrop(result);
 		};
 
 		getData();
 	}, []);
-
-	React.useEffect(() => setMargin(-properties?.offset), [properties?.offset]);
 
 	return (
 		<div className={"Roulette-Container"}>
