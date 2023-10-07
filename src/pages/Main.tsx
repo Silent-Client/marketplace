@@ -9,12 +9,12 @@ import {
 	Text,
 	useTab,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { Suspense, lazy, useContext } from "react";
 import HeroComponent from "../components/HeroComponent";
 import MarketplaceItemsComponent from "../components/MarketplaceItemsComponent";
-import MyLotsComponent from "../components/MyLotsComponent";
-import MyOrdersComponent from "../components/MyOrdersComponent";
 import { AppContext } from "../providers/AppContext";
+const MyLotsComponent = lazy(() => import("../components/MyLotsComponent"));
+const MyOrdersComponent = lazy(() => import("../components/MyOrdersComponent"));
 
 function Main() {
 	const context = useContext(AppContext);
@@ -68,10 +68,14 @@ function Main() {
 
 						<TabPanels mt={2}>
 							<TabPanel p={0}>
-								<MyLotsComponent />
+								<Suspense fallback={<></>}>
+									<MyLotsComponent />
+								</Suspense>
 							</TabPanel>
 							<TabPanel p={0}>
-								<MyOrdersComponent />
+								<Suspense fallback={<></>}>
+									<MyOrdersComponent />
+								</Suspense>
 							</TabPanel>
 						</TabPanels>
 					</Tabs>

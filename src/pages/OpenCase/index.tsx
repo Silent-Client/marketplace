@@ -21,13 +21,13 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../../providers/AppContext";
 import { CaseType, StoreItemType } from "../../types/types";
 import { errorHandler } from "../../utils";
-import Roulette from "./Roulette";
+const Roulette = lazy(() => import("./Roulette"));
 
 function OpenCase() {
 	const [opening, setOpening] = useState(false);
@@ -95,7 +95,11 @@ function OpenCase() {
 							/>
 						</Stack>
 					</Center>
-				)) || <Roulette result={drop} handleDrop={handleDrop} item={item} />}
+				)) || (
+					<Suspense fallback={<></>}>
+						<Roulette result={drop} handleDrop={handleDrop} item={item} />
+					</Suspense>
+				)}
 			</Container>
 
 			<Center>

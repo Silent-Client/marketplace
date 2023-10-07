@@ -10,12 +10,12 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { FaBell, FaPlus } from "react-icons/fa";
 import { Link as RLink, useLocation } from "react-router-dom";
 import { AppContext } from "../providers/AppContext";
-import AccountMenu from "./AccountMenu";
 import BalanceModal from "./BalanceModal";
+const AccountMenu = lazy(() => import("./AccountMenu"));
 
 export const MenuItems = [
 	{
@@ -157,7 +157,9 @@ function Header() {
 								<FaBell size={24} />
 							</Link>
 
-							<AccountMenu />
+							<Suspense fallback={<></>}>
+								<AccountMenu />
+							</Suspense>
 						</>
 					)) || (
 						<Button
