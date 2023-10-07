@@ -1,4 +1,5 @@
 import {
+	Badge,
 	Box,
 	Button,
 	Center,
@@ -8,8 +9,9 @@ import {
 	Stack,
 	useDisclosure,
 } from "@chakra-ui/react";
-import { useContext } from "react";
-import { FaPlus } from "react-icons/fa";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { FaBell, FaPlus } from "react-icons/fa";
 import { Link as RLink, useLocation } from "react-router-dom";
 import { AppContext } from "../providers/AppContext";
 import AccountMenu from "./AccountMenu";
@@ -38,6 +40,28 @@ function Header() {
 	const location = useLocation();
 	const context = useContext(AppContext);
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [count, setCount] = useState(0);
+
+	useEffect(() => {
+		const getNotificationCount = async () => {
+			if (context.props.account) {
+				try {
+					const { data } = await axios.get(
+						"https://api.silentclient.net/marketplace/unreaded_deals",
+						{
+							headers: {
+								Authorization: `Bearer ${context.props.accessToken}`,
+							},
+						}
+					);
+
+					setCount(data.count);
+				} catch (error) {}
+			}
+		};
+
+		getNotificationCount();
+	}, [location.pathname]);
 
 	return (
 		<Stack
@@ -116,6 +140,22 @@ function Header() {
 									${" "}
 								</Link>
 							</Box>
+
+							<Link as={RLink} to="/deals">
+								{count !== 0 && (
+									<Badge
+										bgColor={"red"}
+										color={"white"}
+										borderRadius={"999px"}
+										top="24px"
+										zIndex={4}
+										position={"absolute"}
+									>
+										{count}
+									</Badge>
+								)}
+								<FaBell size={24} />
+							</Link>
 
 							<AccountMenu />
 						</>

@@ -128,3 +128,14 @@ export interface SaleType {
 	prices: number[];
 	median_price: number;
 }
+
+export interface DealType {
+	lot: ExtendedMarketplaceItem;
+	id: number;
+	user_id: number;
+	lot_id: number;
+	status: string;
+	created_at: string;
+	updated_at: string;
+	readed: boolean;
+}
