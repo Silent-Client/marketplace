@@ -57,6 +57,7 @@ function Roulette({
 								<Image
 									border="1px solid #202020"
 									id={`case-item-${i}`}
+									className="Roulette-Roller-Item"
 									w="150px"
 									h="150px"
 									src={`https://api.silentclient.net${item.preview}`}
@@ -67,6 +68,7 @@ function Roulette({
 									id={`case-item-${i}`}
 									h="150px"
 									w="150px"
+									className="Roulette-Roller-Item"
 								>
 									<Heading textAlign={"center"} w="150px">
 										{item?.name || "Unknown"}
