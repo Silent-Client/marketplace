@@ -122,6 +122,7 @@ function OpenCase() {
 									},
 								}
 							);
+							await context.updateUser();
 							setDrop({
 								...res.drop,
 								alreadyOwned: res.alreadyOwned,
