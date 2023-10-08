@@ -21,7 +21,7 @@ function Roulette({
 		const getData = async () => {
 			const itemWidth = 150 + 10;
 			const resultIndex = _.random(40, 60);
-			const innerOffset = _.random(0, 0.99);
+			const innerOffset = _.random(0, 0.8);
 			const data = {
 				result: result.name,
 				items: [
