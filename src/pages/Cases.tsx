@@ -9,11 +9,12 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
+import { AppContext } from "../providers/AppContext";
 import { StoreItemType } from "../types/types";
-import { errorHandler } from "../utils";
+import { errorHandler, isPremium, isPremiumPlus } from "../utils";
 
 function Cases() {
 	const [cases, setCases] = useState<StoreItemType[]>([]);
@@ -38,6 +39,8 @@ function Cases() {
 
 		getData();
 	}, []);
+
+	const context = useContext(AppContext);
 
 	return loading ? (
 		<Center w="full" p={5}>
@@ -89,7 +92,16 @@ function Cases() {
 						>
 							<Heading size={"sm"}>{container.name}</Heading>
 							<Text fontSize={"md"} opacity={"0.8"}>
-								{(container.price / 100).toFixed(2)}$
+								{(
+									(isPremium(context.props?.account)
+										? Math.round(
+												container.price -
+													container.price *
+														(isPremiumPlus(context.props?.account) ? 0.2 : 0.1)
+										  )
+										: container.price) / 100
+								).toFixed(2)}
+								$
 							</Text>
 						</Stack>
 					</Stack>

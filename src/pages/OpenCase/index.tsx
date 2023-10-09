@@ -26,7 +26,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../../providers/AppContext";
 import { CaseType, StoreItemType } from "../../types/types";
-import { errorHandler } from "../../utils";
+import { errorHandler, isPremium, isPremiumPlus } from "../../utils";
 const Roulette = lazy(() => import("./Roulette"));
 
 function OpenCase() {
@@ -106,7 +106,7 @@ function OpenCase() {
 				<Button
 					isLoading={buttonLoading}
 					isDisabled={opening}
-					w={["full", "150px"]}
+					w={["full", "200px"]}
 					mt={2}
 					onClick={async () => {
 						if (!context.props.account) {
@@ -138,8 +138,19 @@ function OpenCase() {
 							setButtonLoading.off();
 						}
 					}}
+					colorScheme="green"
 				>
-					Open Case
+					Open case for{" "}
+					{(
+						(isPremium(context.props?.account)
+							? Math.round(
+									item.price -
+										item.price *
+											(isPremiumPlus(context.props?.account) ? 0.2 : 0.1)
+							  )
+							: item.price) / 100
+					).toFixed(2)}
+					$
 				</Button>
 			</Center>
 
