@@ -68,9 +68,18 @@ const router = createBrowserRouter([
 			{
 				path: "/deals",
 				async lazy() {
-					const page = await import("./pages/MyDeals.tsx");
+					const page = await import("./providers/OnlyAuthProvider.tsx");
 					return { Component: page.default, loader: Loader };
 				},
+				children: [
+					{
+						index: true,
+						async lazy() {
+							const page = await import("./pages/MyDeals.tsx");
+							return { Component: page.default, loader: Loader };
+						},
+					},
+				],
 			},
 			{
 				path: "*",

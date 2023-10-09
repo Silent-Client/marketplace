@@ -7,6 +7,7 @@ import {
 	Image,
 	Link,
 	Stack,
+	useBreakpointValue,
 	useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -15,7 +16,9 @@ import { FaBell, FaPlus } from "react-icons/fa";
 import { Link as RLink, useLocation } from "react-router-dom";
 import { AppContext } from "../providers/AppContext";
 import BalanceModal from "./BalanceModal";
+
 const AccountMenu = lazy(() => import("./AccountMenu"));
+const MobileMenu = lazy(() => import("./MobileMenu"));
 
 export const MenuItems = [
 	{
@@ -41,6 +44,10 @@ function Header() {
 	const context = useContext(AppContext);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [count, setCount] = useState(0);
+	const isMobile = useBreakpointValue({
+		base: true,
+		md: false,
+	});
 
 	useEffect(() => {
 		const getNotificationCount = async () => {
@@ -89,57 +96,55 @@ function Header() {
 					/>
 				</Link>
 			</Center>
-			<Center
-				justifyContent={"center"}
-				w="full"
-				h="full"
-				display={["none", "flex"]}
-			>
-				<Stack direction={"row"} spacing={4}>
-					{MenuItems.map(item => (
-						<Link
-							fontSize={"lg"}
-							color="white"
-							fontWeight={"bold"}
-							opacity={location.pathname === item.href ? "1" : "0.5"}
-							_hover={{
-								opacity: location.pathname === item.href ? "1" : "0.9",
-								textDecoration: "none",
-							}}
-							as={RLink}
-							to={item.href}
-						>
-							{item.name}
-						</Link>
-					))}
-				</Stack>
-			</Center>
+			{!isMobile && (
+				<Center justifyContent={"center"} w="full" h="full">
+					<Stack direction={"row"} spacing={4}>
+						{MenuItems.map(item => (
+							<Link
+								fontSize={"lg"}
+								color="white"
+								fontWeight={"bold"}
+								opacity={location.pathname === item.href ? "1" : "0.5"}
+								_hover={{
+									opacity: location.pathname === item.href ? "1" : "0.9",
+									textDecoration: "none",
+								}}
+								as={RLink}
+								to={item.href}
+							>
+								{item.name}
+							</Link>
+						))}
+					</Stack>
+				</Center>
+			)}
 
 			<Center w="full" h="full" justifyContent={"end"}>
 				<Stack alignItems={"center"} direction={"row"} spacing={2}>
 					{(context.props.account && (
 						<>
-							<Box>
-								<Link
-									bgColor="rgba(255, 255, 255, 0.1)"
-									borderRadius="5px"
-									p="5px 10px"
-									border="1px solid transparent"
-									_hover={{
-										borderColor: "white",
-									}}
-									display={["none", "block"]}
-									onClick={onOpen}
-								>
-									<Icon>
-										<FaPlus />
-									</Icon>
-									{((context.props.account.partner_balance || 0) / 100).toFixed(
-										2
-									)}
-									${" "}
-								</Link>
-							</Box>
+							{!isMobile && (
+								<Box>
+									<Link
+										bgColor="rgba(255, 255, 255, 0.1)"
+										borderRadius="5px"
+										p="5px 10px"
+										border="1px solid transparent"
+										_hover={{
+											borderColor: "white",
+										}}
+										onClick={onOpen}
+									>
+										<Icon>
+											<FaPlus />
+										</Icon>
+										{(
+											(context.props.account.partner_balance || 0) / 100
+										).toFixed(2)}
+										${" "}
+									</Link>
+								</Box>
+							)}
 
 							<Link as={RLink} to="/deals">
 								{count !== 0 && (
@@ -156,22 +161,32 @@ function Header() {
 								)}
 								<FaBell size={24} />
 							</Link>
-
-							<Suspense fallback={<></>}>
-								<AccountMenu />
-							</Suspense>
+							{!isMobile && (
+								<Suspense fallback={<></>}>
+									{<AccountMenu isMobile={false} />}
+								</Suspense>
+							)}
 						</>
 					)) || (
-						<Button
-							variant="outline"
-							minWidth={["60px", "70px"]}
-							borderColor="white"
-							onClick={() => {
-								window.location.href = `https://auth.silentclient.net/login?redirect_url=${window.location.href}`;
-							}}
-						>
-							Login
-						</Button>
+						<>
+							{!isMobile && (
+								<Button
+									variant="outline"
+									minWidth={["60px", "70px"]}
+									borderColor="white"
+									onClick={() => {
+										window.location.href = `https://auth.silentclient.net/login?redirect_url=${window.location.href}`;
+									}}
+								>
+									Login
+								</Button>
+							)}
+						</>
+					)}
+					{isMobile && (
+						<Suspense fallback={<></>}>
+							<MobileMenu />
+						</Suspense>
 					)}
 				</Stack>
 			</Center>
